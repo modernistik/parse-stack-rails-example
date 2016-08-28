@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'dotenv-rails', :groups => [:development, :test]
 
 # Use Parse-Stack as the Parse-Server API Client and ORM
 gem 'parse-stack', '>= 1.4', github: 'modernistik/parse-stack'
