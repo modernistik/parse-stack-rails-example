@@ -6,7 +6,7 @@ Make sure you have your API keys for your Parse-Server handy. To get started, cl
 
     $ bundle install
 
-Edit the `config/initializers/parse.rb` file so that it is configured with your Parse-Server API keys. You may optionally use a `.env` file that will be loaded into your `ENV`.
+Edit the [`config/initializers/parse.rb`](https://github.com/modernistik/parse-server-rails-example/blob/master/config/initializers/parse.rb) file so that it is configured with your Parse-Server API keys. You may optionally use a `.env` file that will be loaded into your `ENV`.
 
 ```
 # in .env
@@ -16,11 +16,11 @@ PARSE_API_KEY=<YOUR_API_ID>
 PARSE_MASTER_KEY=<YOUR_MASTER_KEY>
 ```
 
-We have created a sample `Song` and `Artist` model in the `apps/models` directory. To upgrade your schema and create these new collections, run the `parse:upgrade` task.
+We have created a sample `Song` and `Artist` model in the [`apps/models` directory](https://github.com/modernistik/parse-server-rails-example/tree/master/app/models). To upgrade your schema and create these new collections, run the `parse:upgrade` task.
 
     $ rails parse:upgrade
 
-To seed your collections with sample content, run the `db:seed` task.
+To seed your collections with sample content, run the `db:seed` task. See [seeds.rb](https://github.com/modernistik/parse-server-rails-example/blob/master/db/seeds.rb).
 
     $ rails db:seed
 

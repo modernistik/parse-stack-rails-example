@@ -27,7 +27,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'dotenv-rails', :groups => [:development, :test]
 
 # Use Parse-Stack as the Parse-Server API Client and ORM
-gem 'parse-stack', '>= 1.4', github: 'modernistik/parse-stack'
+gem 'parse-stack', '>= 1.4'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
