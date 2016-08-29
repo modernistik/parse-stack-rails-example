@@ -1,6 +1,17 @@
 # Rails Application with Parse-Server Example
 This is a sample application is used to showcase how to integrate a [Rails](https://github.com/rails/rails) application with a [Parse-Server](https://github.com/ParsePlatform/parse-server) backend through the use of the [Parse-Stack](https://github.com/modernistik/parse-stack) gem.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Getting Started](#getting-started)
+  - [Model Generators](#model-generators)
+  - [Cloud Code Webhooks](#cloud-code-webhooks)
+- [Build Your Own](#build-your-own)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Getting Started
 Make sure you have your API keys for your Parse-Server handy. To get started, clone this repo and run the bundle command.
 
@@ -16,6 +27,7 @@ PARSE_API_KEY=<YOUR_API_ID>
 PARSE_MASTER_KEY=<YOUR_MASTER_KEY>
 ```
 
+### Model Generators
 We have created a sample `Song` and `Artist` model in the [`apps/models` directory](https://github.com/modernistik/parse-server-rails-example/tree/master/app/models). To upgrade your schema and create these new collections, run the `parse:upgrade` task.
 
     $ rails parse:upgrade
@@ -33,6 +45,67 @@ You are ready to go! Try running the `rails console` command and perform a few q
     song.artist.name
     song.name = "My New Title"
     song.save
+```
+
+### Cloud Code Webhooks
+You can have the Rails application handle cloud code functions and triggers. As an example, there is a sample `helloWorld` cloud code method in `app/models/webhooks.rb`. The code should look similar to:
+
+```ruby
+# create a route for a function called 'helloWorld'
+Parse::Webhooks.route :function, :helloWorld do
+  name = params['name'].to_s # function params
+  name.present? ? "Hello #{name}!" : "Hello World!"
+end
+```
+
+Because we are going to be running other endpoints on this Rails application, we will set all Parse-Server webhooks go to our server on the mount path of `/webhooks` (you can change it). We will then set a Rails route for the `Parse::Webhooks` rack handler to `/webhooks`. Edit the `routes.rb`:
+
+```ruby
+# in routes.rb
+Rails.application.routes.draw do
+  # All incoming Cloud Code webhooks will be at this mount path
+  mount Parse::Webhooks, :at => '/webhooks'
+end
+```
+
+We will test having this Rails application handle the logic when someone calls the function `helloWorld` through the Parse-Server. To do this, we will use [`ngrok`](https://ngrok.com) to provide us with a public facing url where we can receive our request from Parse-Server. Open a separate terminal, install ngrok and start it on the rails default port.
+
+    $ brew install homebrew/binary/ngrok2 # OSX
+    $ ngrok http 3000
+
+This should start the ngrok proxy and assign you a specific url (ex. https://12345678.ngrok.io) pointing to http://localhost:3000. We will now set our `HOOKS_URL` environment variable to this assigned ngrok url with our mount path: (ex. `HOOKS_URL=https://12345678.ngrok.io/webhooks`) . You can now register the webhooks with your Parse-Server by using the helper task `rails parse:webhooks:register`. _Depending where you finally decide you put your models you may have to set `config.eager_load = true` in `development.rb`._
+
+```bash
+$ HOOKS_URL=https://12345678.ngrok.io/webhooks \
+rails parse:webhooks:register
+
+Registering Parse Webhooks @ https://12345678.ngrok.io/webhooks
+[+] function - helloWorld
+```
+
+Now you can start your rails server in production (for eager loading):
+
+```bash
+  $ rails s -e production
+```
+
+And test calling your function:
+
+```bash
+$ curl -X POST \
+  -H "X-Parse-Application-Id: ${PARSE_APP_ID}" \
+  -H "X-Parse-REST-API-Key: ${PARSE_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{}' \
+  https://api.parse.com/1/functions/helloWorld
+```
+
+Note that if you are using a specific Parse-Server, you may need to change `https://api.parse.com/1`. You should be able to see the response of `{"result":"Hello World!"}`. To unregister the webhooks, you can stop the server and run:
+
+```bash
+$ rails parse:webhooks:remove
+
+[-] function - helloWorld
 ```
 
 ## Build Your Own

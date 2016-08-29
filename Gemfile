@@ -24,10 +24,10 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'dotenv-rails', :groups => [:development, :test]
+gem 'dotenv-rails'
 
 # Use Parse-Stack as the Parse-Server API Client and ORM
-gem 'parse-stack', '>= 1.4'
+gem 'parse-stack', '>= 1.4.1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

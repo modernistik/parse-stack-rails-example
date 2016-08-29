@@ -1,4 +1,3 @@
-require_relative 'artist'
 
 class Song < Parse::Object
   # See: https://github.com/modernistik/parse-stack#defining-properties
