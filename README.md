@@ -1,17 +1,6 @@
 # Rails Application with Parse-Server Example
 This is a sample application is used to showcase how to integrate a [Rails](https://github.com/rails/rails) application with a [Parse-Server](https://github.com/ParsePlatform/parse-server) backend through the use of the [Parse-Stack](https://github.com/modernistik/parse-stack) gem.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Getting Started](#getting-started)
-  - [Model Generators](#model-generators)
-  - [Cloud Code Webhooks](#cloud-code-webhooks)
-- [Build Your Own](#build-your-own)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## Getting Started
 Make sure you have your API keys for your Parse-Server handy. To get started, clone this repo and run the bundle command.
 
