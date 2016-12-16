@@ -1,4 +1,4 @@
-# Rails Application with Parse-Server Example
+# Parse Server Rails Application Example
 This is a sample application is used to showcase how to integrate a [Rails](https://github.com/rails/rails) application with a [Parse-Server](https://github.com/ParsePlatform/parse-server) backend through the use of the [Parse-Stack](https://github.com/modernistik/parse-stack) gem.
 
 ## Getting Started
